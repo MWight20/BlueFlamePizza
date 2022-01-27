@@ -1,0 +1,109 @@
+﻿#Phase 1 - Login System [progression: Home/Index.cshtml == Account/Index.cshtml -> Product/Index.cshtml]
+	
+	Home/Index.cshtml:
+		> Register a new user
+
+		> Login with an existing user
+
+		> Proceed as a guest
+
+#Phase 2 - Product Table Display into cart creation [progression: Product/Index.cshtml -> Cart/Index.cshtml]
+	
+	Product/Index.cshtml:
+
+		> If cart exists with current session ID, we'll use that, otherwise...
+
+		> Anonymous cart item is created within the database to hold added items
+			- added items:
+				> Ajax call to create cart items on the fly
+					1. Create cart in controller
+					2. Set it's sessionId to be retrievable later
+
+
+				> Ajax call will continue and then add those items into the cart we had created
+					1. When we want to make a call to the cart, we'll get the sessionId somehow, use that to identify cart in the ajax cart query
+					2. If authenticated, Cart's User_Id field changed to login user's Id if logged in
+					3. get info for the item via query using product_id and qty and Create a cart item
+					4. insert the item into the cart in the database
+					5. abandoned carts are something that admin will have to manage manually.
+
+			- at this point, a cart is existing in the database with sessionID or possibly User_ID for queryable identifiers
+			- The cart will contain added "cart items"
+			- Update a counter for items to display on the products page
+				> This will be a button that is a link to the "cart/Index.cshtml" page
+
+		> Display table of product information for browsing
+			- User can select quantity and 'add' to cart
+			- Adding an item creates a "cart Item" object to be added to the cart
+
+		> For pizza customizing:
+			- use a separate view redirect when clicking on customize
+			- Takes to a form page where we can make a dropdown form for toppings and custom comments
+
+
+
+#Phase 3 - Cart management into order creation [progression: Cart/Index.cshtml -> Cart/UserInfo.cshtml -> Order/Index.cshtml]
+
+	Cart/Index.cshtml:
+		> Items in user's cart will be listed and user can add or delete items from cart
+		> The user will be given options to "keep shopping", which returns them back to the product page or to submit the order(=>userinfo.cshtml)
+
+		> AJAX - Will need to be utilized for the live web api access to add or delete items from the cart
+
+	Cart/UserInfo.cshtml:
+		> We'll prompt the user for first name, last name, etc. for info on cart
+			- This will be a POST request via form display
+		> Promp user to confirm information which will take us to the order creation
+
+
+#Phase 4 - Order Creation & OrderSession Implementation [progression: Order/Index.cshtml -> Order/Review.cshtml ->]
+	
+	Order/Index.cshtml:
+		> Upon entering Order page:
+			- grab cart's info from dbcontext
+			- render it into a readable display for the user
+			- Order totals/tax/grandtotals will be calculated
+
+		> Once the user clicks to 'next' we will create 'order item' objects and 'order' object from the 'cart' dbcontext's data
+			- All of which will be managed in the controller without needing ajax
+
+			- 'next' will prompt our "transaction/index.cshtml" screen.
+
+#Phase 5 - Transaction Creation [progression: Transaction/Index.cshtml -> Transaction/submit.cshtml -> Transaction/Success.cshtml | Transaction/Failed.cshtml]
+
+	Transaction/Index.cshtml:
+		> Transaction object is created in controller and values updated
+		> Form for payment info is needed here
+			- Need some way to validate fake credit cart numbers OR force 'cash in person' for now
+		> 'Submit' will take us to the next view.
+
+	Transaction/Submit.cshtml:
+		> This view will display Order information
+			1. User Information
+			2. Order items
+			3. Price information
+
+		> 'Complete Order' will add and submit transaction and complete our order
+		> We will need to manage how a completed cart gets "flushed" from being seen in the current session
+
+	Transaction/Success.cshtml | Transcation/Failed.cshtml:
+		> Page used to signify the completion of the order
+		> This page may be replaced as a modal popup notification as well
+		> prompt user to return to homepage
+		
+	>> How to manage a "completed" cart upon being redirected to the product page?
+		- Do I remove sessionID from cart in DB?
+
+	>>>Note: cart_status, order_status, and transaction status will be updated on each step of their respective 'phases'
+
+#Phase 6 - Admin Management Menus (View all orders/transaction information, 
+									search for users and their transactions,
+									View product information and supply ->
+									<future> Implement way for admin/manager to add number of products to a list to order from supplier or )
+
+#Phase 7 - User Management Menus (View previous orders, manage account information, etc.)
+
+#Phase 8 - Finalize all use cases and correct any bugs, double check DB to have finalized and correct schema
+
+#Phase 9 - Full CSS Facelift for all pages
+

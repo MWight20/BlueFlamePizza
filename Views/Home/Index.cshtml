@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@ViewBag.data
+<div class="body-content">
+    <div class="row">
+        <div class="col">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="col">@Html.ActionLink("Login", "Index", "Account")</div>
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                @*<div>
+                    @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+                    {
+                        <button class="=" btn btn-info">Logout</button>
+                    }
+                </div>*@
+                @Html.ActionLink("Proceed to the menu", "Index", "Product")
+            }
+            @Html.ActionLink("proceed as a guest", "Index", "Product")
+        </div>
+    </div>
+</div>

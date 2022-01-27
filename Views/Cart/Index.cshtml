@@ -1,0 +1,33 @@
+﻿@model BlueFlamePizza.ViewModels.CartViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<h1>Cart</h1>
+
+@using (Html.BeginForm("Cart_Submit", "Cart", new { cart_id = Model.cart_id }, FormMethod.Post, null, null))
+{
+    <div class="cart-table-container">
+        <table class="table cart-item-table">
+            @foreach (var item in Model.CartItems)
+            {
+                <tr class="row cart-item-row">
+                    <td class="col">
+                        <div>Item Name: @item.Product.ProductTitle</div>
+                        <div>Item Quantity: @item.CartItemQuantity</div>
+                        <div>Item Price: @item.CartItemPrice</div>
+                        <div>Item Qty:</div>
+                    </td>
+                    <td class="col-md-auto">
+                        <input type="text" class="cart-item-qty-count" id="" name="cart-item-qty-count" value="@item.CartItemQuantity" readonly="readonly" />
+                        <button class="cart-item-increase btn btn-outline-info" id="cart-item-increase">+</button>
+                        <button class="cart-item-decrease btn btn-outline-info" id="cart-item-decrease">-</button>
+                    </td>
+                    <td class="col-auto"><button class="btn btn-outline-danger">remove</button></td>
+
+                </tr>
+            }
+        </table>
+    </div>
+    <input id="Submit" type="submit" value="submit" />
+}

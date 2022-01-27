@@ -1,0 +1,91 @@
+﻿
+@model BlueFlamePizza.ViewModels.ProductViewModel
+@{ 
+    var count = ViewBag.cartItemCount;
+    var cart_id_ViewBag = ViewBag.currentCartId;
+}
+<h1 id="page-welcome">Welcome!</h1>
+<div>
+    @if (User.Identity.IsAuthenticated)
+    {
+
+        <span>Logged in as: @User.Identity.Name;</span>
+        @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+        {
+            <button class="" btn btn-info">Logout</button>
+        }
+    }
+    <div hidden id="currentSession">@ViewBag.currentSession</div>
+    <div hidden id="currentCartId">@ViewBag.currentCartId</div>
+</div>
+
+<div class="menu-container row">
+    <div class="col">
+        <div class="cart">
+            <h6 id="cartItemCount">Items in cart: @ViewBag.cartItemCount</h6>
+            @Html.ActionLink("Continue to cart", "Index", "Cart", new { cart_id = ViewBag.currentCartId }, new { @class = "btn btn-info cart-btn" })
+            
+        </div>
+
+        <div class="menu-categories">
+            @foreach (var category in Model.Categories)
+            {
+                <h6 class="category-header">
+                    <a href="#@category.CategoryName">@category.CategoryName</a>
+                </h6>
+            }
+        </div>
+    </div>
+
+
+    <div class="menu-products col-10">
+
+        @foreach (var category in Model.Categories)
+        {
+            <h4 class="category-name" id="@category.CategoryName">@category.CategoryName</h4>
+            <div class="product-table-wrapper">
+                <table class="table product-table">
+                    <tr>
+                        <th>Product</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Add</th>
+                    </tr>
+
+                   @foreach (var product in Model.Products)
+                    {
+                       @if (category.CategoryName == product.Category.CategoryName)
+                        {
+                    <tr class="product-row" id="@product.ProductId">
+                        <td class="product-title">@product.ProductTitle</td>
+                        <td class="product-content">@product.ProductContent</td>
+                        <td class="product-price">@Html.DisplayFor(modelItem => product.ProductPrice)</td>
+                        <td class="product-qty" id="product-qty">
+                            <div class="button-col">
+                                <input type="text" class="product-order-count-form" id="@product.ProductId" name="product-order-count-form" value="1" readonly="readonly" />
+                                <button class="order-count-increase btn btn-outline-info" id="product-order-count-increase">+</button>
+                                <button class="order-count-decrease btn btn-outline-info" id="product-order-count-decrease">-</button>
+                            </div>
+
+                        </td>
+                        <td>
+                            <button class="cart-add-button btn btn-info">Add</button>
+                            @if (category.CategoryName.Contains("Pizza"))
+                            {
+                                <button class="customize-pizza-button btn btn-info" id="customize-pizza">Customize</button>
+                            }
+                        </td>
+                    </tr>
+                        }
+                    }
+                </table>
+            </div>
+        }
+
+    </div>
+
+
+</div>
+
+<script src="~/js/product.js"></script>

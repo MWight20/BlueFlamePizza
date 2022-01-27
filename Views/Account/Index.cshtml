@@ -1,0 +1,88 @@
+﻿@model BlueFlamePizza.ViewModels.LoginViewModel
+
+
+
+@*<div id="PlaceHolderHere"></div>
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#loginModal">Login</button>*@
+<div class="loginContainer">
+    <div class="login-header">
+        <h1>Welcome to Blue Flame Pizza!</h1>
+        <h4>Log in below</h4>
+    </div>
+    <div>
+        <h6 id="ErrorText">@ViewBag.Error</h6>
+    </div>
+    
+    <div class="form-group login-body row" id="loginForm">
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login-form" }))
+        {
+            @Html.Label("Email", "Email")
+            <div class="col">
+
+                @Html.TextBoxFor(m => m.UserEmail)
+                <br />
+            </div>
+            @Html.Label("Password")
+            <div class="col">
+
+                @Html.TextBoxFor(m => m.UserPassword)
+                <br />
+            </div>
+            <div class="col login-buttons forgotPasswordButton">
+                <input class="btn btn-dark login-button" id="Submit" type="submit" value="Login" />
+                @Html.ActionLink("Forgot Password", "ForgotPassword", "Account", null, new { @class = "btn btn-light login-button" })
+            </div>
+        }
+    </div>
+
+    <div class="login-footer">
+        <div class="col">
+            Don't have an account yet? @Html.ActionLink("Register here", "Register", "Account", null, new { @class = "btn btn-link" })
+
+        </div>
+    </div>
+</div>
+
+
+<!--Modal-->
+<div class="modal fade" id="loginModal" aria-hidden="true" aria-labelledby="loginModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="userLoginLabel">Login</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row" id="modal-row">
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                    {
+                        <div class="">
+                            @*<span>Email: </span>*@
+                            @Html.Label("Email", "Email")
+                            @Html.TextBoxFor(m => m.UserEmail)
+                            <br />
+                        </div>
+
+                        <div class="">
+                            @*<span>Password: </span>*@ 
+                            @Html.Label("Password")
+                            @Html.TextBoxFor(m => m.UserPassword)
+                            <br />
+                        </div>
+                        <div class="col-lg">
+                            <input class="btn btn-dark" id="Submit" type="submit" value="Login" />
+                        </div>
+
+                    }
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" id="HidebuttonModal" data-dismiss="modal" href="#">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

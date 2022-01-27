@@ -1,0 +1,40 @@
+﻿@model BlueFlamePizza.ViewModels.RegisterUserViewModel
+@{
+    <h1>Register below</h1>
+}
+<div class="RegisterHeader col-lg">
+    <h6 id="ErrorText">
+        @ViewBag.Error
+    </h6>
+</div>
+
+
+<div class="RegisterBody col-lg">
+
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+    {
+        <span>Email: </span> @Html.TextBoxFor(m => m.UserEmail) @Html.ValidationMessageFor(m => m.UserEmail, "", new { @class = "error" })
+        <br />
+        <span>Password: </span> @Html.PasswordFor(m => m.UserPassword) @Html.ValidationMessageFor(m => m.UserPassword, "", new { @class = "error" })
+        <br />
+        <span>Confirm Password: </span> @Html.PasswordFor(m => m.UserConfirmPassword) @Html.ValidationMessageFor(m => m.UserConfirmPassword, "", new { @class = "error" })
+        <br />
+        @*<span>Password hint: </span> @Html.TextBoxFor(m => m.UserPasswordHint)
+            <br />
+            <span>First Name: </span> @Html.TextBoxFor(m => m.UserFirstName)
+            <br />
+            <span>Last Name: </span> @Html.TextBoxFor(m => m.UserLastName)
+            <br />
+            <span>Phone Number: </span> @Html.TextBoxFor(m => m.UserPhone)
+            <br />*@
+
+        <input class ="btn btn-dark" id="Submit" type="submit" value="submit" />
+    }
+</div>
+
+
+<div class="RegisterFooter">
+    <div class="col">
+        Already signed up? @Html.ActionLink("login here", "Index", "Account", null, new { @class = "btn btn-link" })
+    </div>
+</div>
